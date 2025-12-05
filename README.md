@@ -2,6 +2,9 @@
 
 A production-ready, multi-tenant Shopify data ingestion and insights platform that helps enterprise retailers onboard, integrate, and analyze their customer data.
 
+##  Live Deployed Link-   https://xeno-shopify-nu.vercel.app/
+
+
 ## Table of Contents
 
 - [Setup Instructions](#setup-instructions)
