@@ -281,8 +281,6 @@ erDiagram
         string accessToken
         string name
         boolean isActive
-        timestamp createdAt
-        timestamp updatedAt
     }
 
     Customer {
@@ -290,12 +288,8 @@ erDiagram
         uuid tenantId FK
         string shopifyId
         string email
-        string firstName
-        string lastName
         float totalSpent
         int ordersCount
-        timestamp createdAt
-        timestamp updatedAt
     }
 
     Order {
@@ -303,17 +297,8 @@ erDiagram
         uuid tenantId FK
         uuid customerId FK
         string shopifyId
-        string orderNumber
-        string email
-        string financialStatus
-        string fulfillmentStatus
         float totalPrice
-        float subtotalPrice
-        float totalTax
-        string currency
         timestamp orderDate
-        timestamp createdAt
-        timestamp updatedAt
     }
 
     Product {
@@ -321,35 +306,22 @@ erDiagram
         uuid tenantId FK
         string shopifyId
         string title
-        string handle
-        text description
-        string vendor
-        string productType
-        string status
         float totalSales
-        timestamp createdAt
-        timestamp updatedAt
     }
 
     OrderLineItem {
         uuid id PK
         uuid orderId FK
         uuid productId FK
-        string shopifyId
-        string title
         int quantity
         float price
-        timestamp createdAt
     }
 
     CustomEvent {
         uuid id PK
         uuid tenantId FK
         string eventType
-        uuid customerId
-        string email
         json metadata
-        timestamp createdAt
     }
 ```
 
