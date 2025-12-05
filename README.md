@@ -2,6 +2,15 @@
 
 A production-ready, multi-tenant Shopify data ingestion and insights platform that helps enterprise retailers onboard, integrate, and analyze their customer data.
 
+## Table of Contents
+
+- [Setup Instructions](#setup-instructions)
+- [Architecture Diagram](#architecture-diagram)
+- [API Endpoints](#api-endpoints)
+- [Database Schema](#database-schema)
+- [Known Limitations](#known-limitations)
+- [Assumptions](#assumptions)
+
 ---
 
 ## Setup Instructions
@@ -59,7 +68,7 @@ Frontend runs on: http://localhost:5173
 #### Option 1: Render PostgreSQL (Recommended - Free)
 
 1. Go to **https://render.com** and sign up
-2. Click **"New +"** → **"PostgreSQL"**
+2. Click **"New +"** and select **"PostgreSQL"**
 3. Name it: `xeno-shopify-db`, choose **Free** plan
 4. Copy the **External Database URL** (for local dev)
 5. Update `backend/.env`:
@@ -71,7 +80,7 @@ Frontend runs on: http://localhost:5173
 #### Option 2: Railway PostgreSQL
 
 1. Go to **https://railway.app** and sign up
-2. **New Project** → **Database** → **Add PostgreSQL**
+2. Create **New Project**, then select **Database** and **Add PostgreSQL**
 3. Go to **Variables** tab and copy `DATABASE_URL`
 4. Update `backend/.env` with the connection string
 5. Run: `npm run db:push`
