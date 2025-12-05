@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: xeno-shopify-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: PORT
+        value: 10000
+

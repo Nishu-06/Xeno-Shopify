@@ -1,0 +1,144 @@
+// Multi-tenant Shopify Data Ingestion Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Seed configuration
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Tenant model for multi-tenant isolation
+model Tenant {
+  id          String   @id @default(uuid())
+  shopDomain  String   @unique // e.g., "myshop.myshopify.com"
+  accessToken String   // Shopify access token
+  name        String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  customers   Customer[]
+  orders      Order[]
+  products    Product[]
+  events      CustomEvent[]
+  
+  @@index([shopDomain])
+}
+
+// Customer model
+model Customer {
+  id              String   @id @default(uuid())
+  tenantId        String
+  shopifyId       String   // Shopify customer ID
+  email           String?
+  firstName       String?
+  lastName        String?
+  totalSpent      Float    @default(0)
+  ordersCount     Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  shopifyCreatedAt DateTime?
+  shopifyUpdatedAt DateTime?
+  
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  orders          Order[]
+  
+  @@unique([tenantId, shopifyId])
+  @@index([tenantId])
+  @@index([email])
+  @@index([tenantId, totalSpent])
+}
+
+// Order model
+model Order {
+  id              String   @id @default(uuid())
+  tenantId        String
+  shopifyId       String   // Shopify order ID
+  orderNumber     String
+  customerId      String?
+  email           String?
+  financialStatus String?  // paid, pending, refunded, etc.
+  fulfillmentStatus String? // fulfilled, partial, unfulfilled
+  totalPrice      Float
+  subtotalPrice   Float
+  totalTax        Float
+  currency        String   @default("USD")
+  orderDate       DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  shopifyCreatedAt DateTime?
+  shopifyUpdatedAt DateTime?
+  
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customer        Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  lineItems       OrderLineItem[]
+  
+  @@unique([tenantId, shopifyId])
+  @@index([tenantId])
+  @@index([tenantId, orderDate])
+  @@index([customerId])
+}
+
+// Order line items
+model OrderLineItem {
+  id          String   @id @default(uuid())
+  orderId     String
+  productId   String?
+  shopifyId   String   // Shopify line item ID
+  title       String
+  quantity    Int
+  price       Float
+  createdAt   DateTime @default(now())
+  
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  
+  @@index([orderId])
+  @@index([productId])
+}
+
+// Product model
+model Product {
+  id              String   @id @default(uuid())
+  tenantId        String
+  shopifyId       String   // Shopify product ID
+  title           String
+  handle          String?
+  description     String?  @db.Text
+  vendor          String?
+  productType     String?
+  status          String?  // active, archived, draft
+  totalSales      Float    @default(0) // Calculated from orders
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  shopifyCreatedAt DateTime?
+  shopifyUpdatedAt DateTime?
+  
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  lineItems       OrderLineItem[]
+  
+  @@unique([tenantId, shopifyId])
+  @@index([tenantId])
+  @@index([tenantId, totalSales])
+}
+
+// Custom events (bonus feature)
+model CustomEvent {
+  id          String   @id @default(uuid())
+  tenantId    String
+  eventType   String   // "cart_abandoned", "checkout_started", etc.
+  customerId  String?
+  email       String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  @@index([tenantId])
+  @@index([tenantId, eventType])
+  @@index([tenantId, createdAt])
+}
+

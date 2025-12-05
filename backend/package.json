@@ -1,0 +1,39 @@
+{
+  "name": "xeno-shopify-backend",
+  "version": "1.0.0",
+  "description": "Multi-tenant Shopify Data Ingestion & Insights Service - Backend",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:seed": "node prisma/seed.js"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "keywords": [
+    "shopify",
+    "multi-tenant",
+    "data-ingestion",
+    "insights"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "axios": "^1.6.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0"
+  }
+}
