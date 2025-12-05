@@ -15,23 +15,37 @@ const PORT = process.env.PORT || 3001;
 // Middleware - CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman, curl, etc.)
+    if (!origin) {
+      return callback(null, true);
+    }
+
     // In development, allow localhost on any port
     if (process.env.NODE_ENV === 'development') {
-      if (!origin || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+      if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
         return callback(null, true);
       }
     }
     
-    // In production, use specific allowed origins
+    // Build allowed origins list
     const allowedOrigins = [
       'http://localhost:5173',
       'http://localhost:3000',
-      process.env.FRONTEND_URL,
-    ].filter(Boolean);
+    ];
     
+    // Add FRONTEND_URL if set (can be comma-separated for multiple URLs)
+    if (process.env.FRONTEND_URL) {
+      const frontendUrls = process.env.FRONTEND_URL.split(',').map(url => url.trim());
+      allowedOrigins.push(...frontendUrls);
+    }
+    
+    // Check if origin is allowed
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      // Log the rejected origin for debugging
+      console.warn(`CORS: Origin "${origin}" not allowed. Allowed origins: ${allowedOrigins.join(', ')}`);
+      console.warn(`CORS: FRONTEND_URL env var: ${process.env.FRONTEND_URL || 'not set'}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
