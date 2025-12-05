@@ -342,27 +342,66 @@ erDiagram
 
 ### Dashboard Views
 
+<table>
+<tr>
+<td width="50%">
+
 **Light Mode Dashboard**
+
 ![Dashboard Light Mode](frontend/assets/screenshots/Dashboard-light-mode.png)
 
+</td>
+<td width="50%">
+
 **Dark Mode Dashboard**
+
 ![Dashboard Dark Mode](frontend/assets/screenshots/Dashboard-dark-mode.png)
+
+</td>
+</tr>
+</table>
 
 ### Store Management
 
+<table>
+<tr>
+<td width="50%">
+
 **Add New Store**
+
 ![Add New Store](frontend/assets/screenshots/Add-new-store.png)
+
+</td>
+<td width="50%">
+
+**Insights Overview**
+
+![Insights Overview](frontend/assets/screenshots/insights.png)
+
+</td>
+</tr>
+</table>
 
 ### Analytics & Insights
 
-**Insights Overview**
-![Insights Overview](frontend/assets/screenshots/insights.png)
+<table>
+<tr>
+<td width="50%">
 
 **Revenue and Order Charts**
+
 ![Charts](frontend/assets/screenshots/charts.png)
 
+</td>
+<td width="50%">
+
 **Orders Table**
+
 ![Orders Table](frontend/assets/screenshots/tables.png)
+
+</td>
+</tr>
+</table>
 
 ---
 
