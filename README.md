@@ -11,6 +11,7 @@ A production-ready, multi-tenant Shopify data ingestion and insights platform th
 - [Architecture Diagram](#architecture-diagram)
 - [API Endpoints](#api-endpoints)
 - [Database Schema](#database-schema)
+- [Screenshots](#screenshots)
 - [Known Limitations](#known-limitations)
 - [Assumptions](#assumptions)
 
@@ -334,6 +335,34 @@ erDiagram
 2. **Composite Unique Keys:** `(tenantId, shopifyId)` ensures no duplicate Shopify records per tenant
 3. **Indexing Strategy:** Indexes on `tenantId`, date fields, and frequently queried fields
 4. **Soft Relationships:** Orders can exist without customers (guest checkout support)
+
+---
+
+## Screenshots
+
+### Dashboard Views
+
+**Light Mode Dashboard**
+![Dashboard Light Mode](frontend/assets/screenshots/Dashboard-light-mode.png)
+
+**Dark Mode Dashboard**
+![Dashboard Dark Mode](frontend/assets/screenshots/Dashboard-dark-mode.png)
+
+### Store Management
+
+**Add New Store**
+![Add New Store](frontend/assets/screenshots/Add-new-store.png)
+
+### Analytics & Insights
+
+**Insights Overview**
+![Insights Overview](frontend/assets/screenshots/insights.png)
+
+**Revenue and Order Charts**
+![Charts](frontend/assets/screenshots/charts.png)
+
+**Orders Table**
+![Orders Table](frontend/assets/screenshots/tables.png)
 
 ---
 
