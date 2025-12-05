@@ -43,6 +43,16 @@ const corsOptions = {
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      // Allow any Vercel domain in production if FRONTEND_URL is set to a Vercel domain
+      // This handles preview deployments and different Vercel project names
+      if (process.env.NODE_ENV === 'production' && 
+          process.env.FRONTEND_URL && 
+          process.env.FRONTEND_URL.includes('.vercel.app') && 
+          origin.includes('.vercel.app')) {
+        console.log(`CORS: Allowing Vercel domain: ${origin}`);
+        return callback(null, true);
+      }
+      
       // Log the rejected origin for debugging
       console.warn(`CORS: Origin "${origin}" not allowed. Allowed origins: ${allowedOrigins.join(', ')}`);
       console.warn(`CORS: FRONTEND_URL env var: ${process.env.FRONTEND_URL || 'not set'}`);
